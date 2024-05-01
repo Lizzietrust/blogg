@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from '../components/Navbar'
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/utils/SessionProvider";
+import Footer from "@/components/Footer";
+import ReduxProvider from "@/reduxProvider/ReduxProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +20,11 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className='bg-white h-screen'>
         <SessionProvider session={session}>
-          <Navbar />
-          {children}
+          <ReduxProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </ReduxProvider>
         </SessionProvider>
       </body>
     </html>

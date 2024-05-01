@@ -112,3 +112,47 @@ export const popularEnt = [
         body: 'Lorem ipsum dolor sit amet consectetur. Sed vel integer praesent eget ac urna. Sit fames aenean et orci diam. Mauris tincidunt ornare facilisis dolor enim.',
     },
 ]
+
+export const publishedPosts = [
+    {
+      image: '/assets/Frame-1.png',
+      tag: 'Beauty & Fashion',
+      title: 'The impact of beauty products on self esteem of individuals',
+      content: 'Lorem ipsum dolor sit amet consectetur. Turpis enim a massa sit neque at quam amet. Aenean dui id consequat egestas ullamcorper ridiculus risus. Magna urna mattis dictum sit vulputate. Velit amet nibh nisl sed. Molestie non varius urna ornare cursus egestas non. Dui elit pretium nullam tellus. In morbi aliquet amet posuere. Sed pellentesque egestas donec sit varius convallis. Proin in ullamcorper odio duis dui quis placerat. Duis gravida in congue felis. In vulputate vitae integer quis scelerisque a imperdiet in adipiscing.'
+    },
+
+    {
+      image: '/assets/Frame-2.png',
+      tag: 'History',
+      title: 'The evolution of fire',
+      content: 'Lorem ipsum dolor sit amet consectetur. Elementum erat sed ac et turpis ut et feugiat. Massa lobortis non quis nulla ipsum. Massa elit pretium porta elementum scelerisque odio at. Odio in dui risus rhoncus. Condimentum volutpat morbi a fermentum. Urna dui amet pellentesque nibh leo mattis dolor aliquam. Nulla ac erat dui nec sodales amet tempus sed. Ut quisque ultricies malesuada aliquam ut donec. Volutpat egestas vitae commodo vehicula vestibulum lacus eget. Massa netus adipiscing vulputate sem malesuada at non suspendisse. Tempor phasellus eget cursus pulvinar sed magna. Amet pretium velit justo dictumst.'
+    },
+
+    {
+      image: '/assets/Frame-3.png',
+      tag: 'Lifestyle',
+      title: '30 days as a sea farer',
+      content: 'Lorem ipsum dolor sit amet consectetur. Elementum erat sed ac et turpis ut et feugiat. Massa lobortis non quis nulla ipsum. Massa elit pretium porta elementum scelerisque odio at. Odio in dui risus rhoncus. Condimentum volutpat morbi a fermentum. Urna dui amet pellentesque nibh leo mattis dolor aliquam. Nulla ac erat dui nec sodales amet tempus sed. Ut quisque ultricies malesuada aliquam ut donec. Volutpat egestas vitae commodo vehicula vestibulum lacus eget. Massa netus adipiscing vulputate sem malesuada at non suspendisse. Tempor phasellus eget cursus pulvinar sed magna. Amet pretium velit justo dictumst.'
+    },
+
+    {
+      image: '/assets/Frame-1.png',
+      tag: 'Beauty & Fashion',
+      title: 'The impact of beauty products on self esteem of individuals',
+      content: 'Lorem ipsum dolor sit amet consectetur. Turpis enim a massa sit neque at quam amet. Aenean dui id consequat egestas ullamcorper ridiculus risus. Magna urna mattis dictum sit vulputate. Velit amet nibh nisl sed. Molestie non varius urna ornare cursus egestas non. Dui elit pretium nullam tellus. In morbi aliquet amet posuere. Sed pellentesque egestas donec sit varius convallis. Proin in ullamcorper odio duis dui quis placerat. Duis gravida in congue felis. In vulputate vitae integer quis scelerisque a imperdiet in adipiscing.'
+    },
+
+    {
+      image: '/assets/Frame-2.png',
+      tag: 'History',
+      title: 'The evolution of fire',
+      content: 'Lorem ipsum dolor sit amet consectetur. Elementum erat sed ac et turpis ut et feugiat. Massa lobortis non quis nulla ipsum. Massa elit pretium porta elementum scelerisque odio at. Odio in dui risus rhoncus. Condimentum volutpat morbi a fermentum. Urna dui amet pellentesque nibh leo mattis dolor aliquam. Nulla ac erat dui nec sodales amet tempus sed. Ut quisque ultricies malesuada aliquam ut donec. Volutpat egestas vitae commodo vehicula vestibulum lacus eget. Massa netus adipiscing vulputate sem malesuada at non suspendisse. Tempor phasellus eget cursus pulvinar sed magna. Amet pretium velit justo dictumst.'
+    },
+
+    {
+      image: '/assets/Frame-3.png',
+      tag: 'Lifestyle',
+      title: '30 days as a sea farer',
+      content: 'Lorem ipsum dolor sit amet consectetur. Elementum erat sed ac et turpis ut et feugiat. Massa lobortis non quis nulla ipsum. Massa elit pretium porta elementum scelerisque odio at. Odio in dui risus rhoncus. Condimentum volutpat morbi a fermentum. Urna dui amet pellentesque nibh leo mattis dolor aliquam. Nulla ac erat dui nec sodales amet tempus sed. Ut quisque ultricies malesuada aliquam ut donec. Volutpat egestas vitae commodo vehicula vestibulum lacus eget. Massa netus adipiscing vulputate sem malesuada at non suspendisse. Tempor phasellus eget cursus pulvinar sed magna. Amet pretium velit justo dictumst.'
+    },
+  ]

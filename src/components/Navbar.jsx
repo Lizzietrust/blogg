@@ -6,16 +6,25 @@ import Image from 'next/image'
 import { navLinks } from '@/constants'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from "next-auth/react";
+import { useDispatch, useSelector } from 'react-redux';
 
 const Navbar = () => {
   const pathName = usePathname();
   const [dropdown, setDropdown] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const { data: session } = useSession();
   
   console.log(session);
   
   const showDropdown = () => {
     setDropdown(!dropdown)
+  }
+
+  const profilePicture = useSelector((state) => state.profilePicture.profilePicture);
+  const dispatch = useDispatch();
+
+  const handleImageChange = (e) => {
+    setSelectedImage(e.target.files[0])
   }
 
   return (
@@ -38,7 +47,11 @@ const Navbar = () => {
         {session ? (
           <div className='flex items-center gap-2'>
             <Link href='/profile'>
-              <Image src='/assets/profile-img.webp' alt='profile-image' width={46} height={46} className='rounded-full border-2 border-[#26BDD2]' />
+              {profilePicture ? (
+                <Image src={profilePicture} alt='profile-image' width={46} height={46} className='rounded-full border-2 border-[#26BDD2]'/>
+              ) : (
+                <Image src='/assets/profile-img.webp' alt='profile-image' width={46} height={46} className='rounded-full border-2 border-[#26BDD2]'/>
+              )}
             </Link>
             <Image src='/assets/Expand_down.png' alt='dropdown' width={24} height={24} className={`${pathName !== '/profile' && 'hidden'} cursor-pointer`}  onClick={showDropdown} />
           </div>
