@@ -1,16 +1,18 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { navLinks } from '@/constants'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from 'react-redux';
+import { setProfilePicture } from '@/slices/profilePictureSlice'
 
 const Navbar = () => {
   const pathName = usePathname();
   const [dropdown, setDropdown] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const { data: session } = useSession();
   
@@ -20,11 +22,43 @@ const Navbar = () => {
     setDropdown(!dropdown)
   }
 
+  const showLogoutModal = () => {
+    setDropdown(false);
+    setLogoutModal(true)
+  }
+
+  const closeLogoutModal = () => {
+    setLogoutModal(false)
+  }
+
   const profilePicture = useSelector((state) => state.profilePicture.profilePicture);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const savedProfileImage = localStorage.getItem('profilePicture');
+    
+    if (savedProfileImage) {
+      dispatch(setProfilePicture(savedProfileImage)); 
+    }
+  }, [dispatch]);
+
   const handleImageChange = (e) => {
-    setSelectedImage(e.target.files[0])
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const imageDataUrl = e.target.result;
+
+      if (localStorage.getItem('profilePicture')) {
+        localStorage.removeItem('profilePicture');
+      }
+
+      dispatch(setProfilePicture(imageDataUrl));
+      localStorage.setItem('profilePicture', imageDataUrl);
+    }
+    
+    setDropdown(false)
+    reader.readAsDataURL(file);
   }
 
   return (
@@ -70,12 +104,13 @@ const Navbar = () => {
       
       {dropdown && session && pathName === '/profile'  && (
         <div className='absolute top-[90px] right-[10%] w-[198px] h-[130px] rounded-[6px] shadow-xl bg-white p-3 flex flex-col items-start justify-start gap-3'>
-          <div className='flex items-center gap-2 cursor-pointer w-full'>
-            <Image src='/assets/camera-icon.png' alt='camera-image' width={21.47} height={21.47} />
+          <div className='flex items-center gap-2 w-full relative cursor-pointer'>
+            <Image src='/assets/camera-icon.png' alt='camera-image' width={21.47} height={21.47} className='' />
             <p className='text-[#292929]'>Edit Profile Picture</p>
+            <input type="file" name="" id="" accept="image/*" onChange={handleImageChange} className='absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer' />
           </div>
 
-          <div className='flex items-center gap-2 cursor-pointer w-full'>
+          <div className='flex items-center gap-2 cursor-pointer w-full' onClick={showLogoutModal}>
             <Image src='/assets/delete-icon.png' alt='camera-image' width={21.47} height={21.47} />
             <p className='text-[#E00017]'>Log Out</p>
           </div>
@@ -84,6 +119,16 @@ const Navbar = () => {
             <Image src='/assets/create-post.png' alt='plus-image' width={21.47} height={21.47} className='object-cover' />
             <p>Create Post</p>
           </Link>
+        </div>
+      )}
+
+      {logoutModal && (
+        <div className='w-[424px] h-[314px] rounded-[13px] bg-white shadow-xl absolute top-[90px] right-[10%] p-12'>
+          <h3 className='font-semibold text-2xl leading-[29.26px] text-center mb-20'>Are you sure you want to log out?</h3>
+          <div className="flex w-full items-center gap-6">
+            <button className='w-1/2 h-[49px] rounded-lg border border-black bg-transparent font-semibold text-[17px]' onClick={() => signOut()}>Yes</button>
+            <button className='w-1/2 h-[49px] rounded-lg bg-[#26BDD2] font-semibold text-[17px] text-white' onClick={closeLogoutModal}>No</button>
+          </div>
         </div>
       )}
     </div>

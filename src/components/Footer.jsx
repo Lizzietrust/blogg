@@ -1,11 +1,16 @@
+'use client'
+
 import { navLinks } from '@/constants'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { usePathname } from 'next/navigation'
 
 const Footer = () => {
+    const pathName = usePathname();
+    
   return (
-    <div className='bg-[#2B2A2A] w-full'>
+    <div className={`bg-[#2B2A2A] w-full ${pathName === '/auth/login' && 'hidden'} ${pathName === '/auth/register' && 'hidden'}`}>
       <div className='w-[90%] mx-auto'>
         <div className='pt-10 pb-20 border-b border-b-[#26BDD2] flex justify-between'>
             <div className='w-4/12'>
