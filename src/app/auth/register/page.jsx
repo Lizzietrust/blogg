@@ -18,18 +18,18 @@ const Register = () => {
         e.preventDefault();
 
         const email = e.target[0].value;
-        const username = e.target[1].value;
+        const name = e.target[1].value;
         const password = e.target[2].value;
 
-        console.log(email, username, password);
+        console.log(email, name, password);
 
         if (!isValidEmail(email)) {
           setError("Email is invalid");
           return;
         }
 
-        if (username.length < 6) {
-          setError("Username should be 6 characters or more");
+        if (name.length < 6) {
+          setError("Name should be 6 characters or more");
           return;
         }
 
@@ -46,7 +46,7 @@ const Register = () => {
             },
             body: JSON.stringify({
               email,
-              username,
+              name,
               password,
             }),    
           })
@@ -83,7 +83,7 @@ const Register = () => {
           </div>
 
           <div className='w-full flex flex-col gap-2'>
-            <label htmlFor="username" className='text-[#3E3E3E]'>Username</label>
+            <label htmlFor="name" className='text-[#3E3E3E]'>Username</label>
             <input type="text" placeholder='enter username' className='w-full h-[54px] rounded-[5px] border py-[17px] px-[15px] border-[#BABABA] outline-none placeholder:text-[#BABABA]' required />
           </div>
 

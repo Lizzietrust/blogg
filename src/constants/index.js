@@ -155,4 +155,4 @@ export const publishedPosts = [
       title: '30 days as a sea farer',
       content: 'Lorem ipsum dolor sit amet consectetur. Elementum erat sed ac et turpis ut et feugiat. Massa lobortis non quis nulla ipsum. Massa elit pretium porta elementum scelerisque odio at. Odio in dui risus rhoncus. Condimentum volutpat morbi a fermentum. Urna dui amet pellentesque nibh leo mattis dolor aliquam. Nulla ac erat dui nec sodales amet tempus sed. Ut quisque ultricies malesuada aliquam ut donec. Volutpat egestas vitae commodo vehicula vestibulum lacus eget. Massa netus adipiscing vulputate sem malesuada at non suspendisse. Tempor phasellus eget cursus pulvinar sed magna. Amet pretium velit justo dictumst.'
     },
-  ]
+]

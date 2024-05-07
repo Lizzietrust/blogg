@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
-import { signOut, useSession } from "next-auth/react";
+import React, { useEffect, useState } from 'react'
+import { signOut, useSession, getSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import SavedPost from '@/components/SavedPost';
@@ -14,23 +14,26 @@ const Profile = () => {
   const router = useRouter();
   const [tab, setTab] = useState('published')
 
+
+
   if (!session) router.replace("/");
 
-  console.log(session?.user);
+  console.log(session);
 
   const profilePicture = useSelector((state) => state.profilePicture.profilePicture);
+
   
   return (
     <div className={`mt-28 w-[90%] mx-auto mb-12 ${!session && 'hidden'}`}>
       <div className='flex items-center justify-between w-full'>
         <div className='flex items-center gap-4'>
           {profilePicture ? (
-            <Image src={profilePicture} alt='profile-image' width={228} height={228} className='rounded-full'  />
+            <Image src={profilePicture} alt='profile-image' width={228} height={228} className='rounded-full' />
           ) : (
-            <Image src='/assets/profile-img.webp' alt='' width={228} height={228} className='rounded-full'    />
+            <Image src='/assets/profile-img.webp' alt='' width={228} height={228} className='rounded-full' />
           )}
           <div className='flex flex-col gap-3'>
-            <h2 className='font-semibold text-[#2B2A2A] text-[41px]'>Jane Doe</h2>
+            <h2 className='font-semibold text-[#2B2A2A] text-[41px]'>{session?.user.name}</h2>
             <p className='leading-[19.5px] text-[#2B2A2A] w-3/5'>
               Lorem ipsum dolor sit amet consectetur. Ridiculus in tellus cras vitae donec pellentesque condimentum feugiat. Massa id vestibulum enim nunc netus aliquet id feugiat hac. Vel malesuada odio volutpat magna quis. Feugiat sodales cras diam dictum se
             </p>

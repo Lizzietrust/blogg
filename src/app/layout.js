@@ -2,7 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from '../components/Navbar'
 import { getServerSession } from "next-auth";
-import SessionProvider from "@/utils/SessionProvider";
+// import SessionProvider from "@/utils/SessionProvider";
+import AuthProvider from "@/utils/AuthProvider";
 import Footer from "@/components/Footer";
 import ReduxProvider from "@/reduxProvider/ReduxProvider";
 
@@ -19,13 +20,13 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className='bg-white h-screen'>
-        <SessionProvider session={session}>
+        <AuthProvider session={session}>
           <ReduxProvider>
             <Navbar />
             {children}
             <Footer />
           </ReduxProvider>
-        </SessionProvider>
+        </AuthProvider>
       </body>
     </html>
   );

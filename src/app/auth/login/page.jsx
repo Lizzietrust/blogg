@@ -20,11 +20,11 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const username = e.target[0].value;
+        const name = e.target[0].value;
         const password = e.target[1].value;
 
-        if (username.length < 6) {
-          setError("Username should be 6 characters or more");
+        if (name.length < 6) {
+          setError("Name should be 6 characters or more");
           return;
         }
 
@@ -35,12 +35,12 @@ const Login = () => {
 
         const res = await signIn('credentials', {
           redirect: false,
-          username,
+          name,
           password,
         })
 
         if (res?.error) {
-          setError("Invalid username or password");
+          setError("Invalid name or password");
           console.log(error);
           if (res?.url) router.replace("/");
         } else {
@@ -58,12 +58,12 @@ const Login = () => {
 
           <h3 className='mt-8 font-medium text-2xl mb-4'>Welcome Back</h3>
 
-          <p className='text-[#1E1E1E]'>Enter your username and password to log in with us</p>
+          <p className='text-[#1E1E1E]'>Enter your name and password to log in with us</p>
         </div>
 
         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
           <div className='w-full flex flex-col gap-2'>
-            <label htmlFor="username" className='text-[#3E3E3E]'>Username</label>
+            <label htmlFor="name" className='text-[#3E3E3E]'>Username</label>
             <input type="text" placeholder='enter username' className='w-full h-[54px] rounded-[5px] border py-[17px] px-[15px] border-[#BABABA] outline-none placeholder:text-[#BABABA]' required />
           </div>
 

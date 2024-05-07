@@ -1,0 +1,72 @@
+'use client'
+
+import React from 'react'
+import Image from 'next/image'
+
+const Form = ({ post, setPost, submitting, handlesubmit }) => {
+  return (
+    <form className='w-full my-5 flex flex-col gap-6' onSubmit={handlesubmit}>
+        <div className='w-full flex flex-col gap-2'>
+            <label htmlFor="" className='font-semibold text-lg text-[#2B2A2A]'>Title</label>
+            <div className="flex w-full h-[52px] rounded border border-[#626060] items-center px-4 gap-2">
+                <div className='w-7 flex items-center justify-center'>
+                    <Image src="/assets/basil_edit-solid.png" alt="" width={24} height={24} />
+                </div>
+                <input type="text" className='calc_width h-full border-none outline-none placeholder:text-[#626060]' placeholder='Enter title here' value={post.title} onChange={(e) => setPost({ ...post, title: e.target.value})}  />
+            </div>
+        </div>
+
+        <div className='w-full flex flex-col gap-2'>
+            <label htmlFor="" className='font-semibold text-lg text-[#2B2A2A]'>Tag</label>
+            <div className="flex w-full h-[52px] rounded border border-[#626060] items-center px-4 gap-2">
+                <div className='w-7 flex items-center justify-center'>
+                    <Image src="/assets/mdi_tag.png" alt="" width={24} height={24} />
+                </div>
+                <input type="text" className='calc_width h-full border-none outline-none placeholder:text-[#626060]' placeholder='Enter tags here' value={post.tag} onChange={(e) => setPost({ ...post, tag: e.target.value})}  />
+            </div>
+        </div>
+
+        <div className='w-full flex flex-col gap-2'>
+            <label htmlFor="" className='font-semibold text-lg text-[#2B2A2A]'>Image</label>
+            <div className="flex w-full h-[52px] rounded border border-[#626060] items-center pl-4 gap-2">
+                <div className='w-7 flex items-center justify-center'>
+                    <Image src="/assets/ic_round-image.png" alt="" width={24} height={24} />
+                </div>
+                <div className="flex calc_width h-full relative">
+                    <div className='w-[70%] h-full flex items-center text-[#626060]'>
+                        Choose cover image from files
+                    </div>
+                    <div className='w-[30%] h-full flex items-center justify-center bg-[#26BDD2] font-medium text-lg text-white cursor-pointer'>
+                        Upload cover image 
+                    </div>
+
+                    <input type="file" accept="image/*" className='absolute top-0 left-0 w-[70%] h-full z-50 opacity-0' />
+                </div>
+            </div>
+        </div>
+
+        <div className='w-full flex flex-col gap-2'>
+            <label htmlFor="" className='font-semibold text-lg text-[#2B2A2A]'>Read Time</label>
+            <div className="flex w-[229px] h-[52px] rounded border border-[#626060] items-center px-4 gap-2">
+                <div className='w-7 flex items-center justify-center'>
+                    <Image src="/assets/tdesign_time-filled.png" alt="" width={24} height={24} />
+                </div>
+                <input type="text" className='w-[160px] h-full border-none outline-none placeholder:text-[#626060]' placeholder='Enter read time' value={post.time} onChange={(e) => setPost({ ...post, time: e.target.value})}  />
+            </div>
+        </div>
+
+        <div className='w-full flex flex-col gap-2'>
+            <label htmlFor="" className='font-semibold text-lg text-[#2B2A2A]'>Story</label>
+            <textarea name="" id="" cols="30" rows="10" className='w-full h-[611px] rounded border border-[#626060] px-4 py-2 outline-none' value={post.content} onChange={(e) => setPost({ ...post, content: e.target.value})}  >
+            </textarea>
+        </div>
+
+        <div className="flex w-full gap-8">
+            <button type='submit' className='w-1/2 h-[50px] rounded-lg bg-[#26BDD2] font-medium text-lg text-white'>{submitting ? 'Loading...' : 'Publish'}</button>
+            <button type='button' className='w-1/2 h-[50px] rounded-lg border border-[#26BDD2] font-medium text-lg'>Save to drafts</button>
+        </div>
+    </form>
+  )
+}
+
+export default Form

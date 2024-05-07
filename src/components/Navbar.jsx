@@ -19,7 +19,8 @@ const Navbar = () => {
   console.log(session);
   
   const showDropdown = () => {
-    setDropdown(!dropdown)
+    setDropdown((prev) => !prev)
+    setLogoutModal(false)
   }
 
   const showLogoutModal = () => {
