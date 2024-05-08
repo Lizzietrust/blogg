@@ -18,8 +18,6 @@ const CreatePost = () => {
         content: ''
     })
 
-    // image: null,
-
     if (!session) router.replace("/");
 
     console.log(session);
@@ -30,6 +28,8 @@ const CreatePost = () => {
         setSubmitting(true);
 
         try {
+            const uploadedImage = localStorage.getItem('uploadedImage');
+
             const response = await fetch('/api/post/new', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -38,13 +38,16 @@ const CreatePost = () => {
                     time: post.time,
                     content: post.content,
                     userId: session?.user.id, 
+                    imageUrl: uploadedImage
+                    // formData.append('imageUrl', uploadedImage);
                 })
             })
 
             if(response.ok) {
                 router.push('/')
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.log(error);
         } finally {
             setSubmitting(false)
@@ -60,6 +63,8 @@ const CreatePost = () => {
         setPost={setPost}
         submitting={submitting}
         handlesubmit={createPost}
+        // image={image}
+        // setImage={setImage}
       />
     </div>
   )

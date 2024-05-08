@@ -10,8 +10,22 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import 'swiper/swiper-bundle.css'
 import Popular from "@/components/Popular";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await fetch('/api/post');
+
+      const data = await response.json();
+      setPosts(data);
+    }
+    
+    fetchPosts();
+  }, [])
+
   return (
     <div className="mt-28 overflow-x-hidden">
       <div className='w-full border-b border-b-[#26BDD2] mb-10'>

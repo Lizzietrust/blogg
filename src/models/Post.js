@@ -25,8 +25,12 @@ const postSchema = new Schema({
     time: {
         type: String,
         required: [true, 'Read Time is required']
+    },
+
+    imageUrl: {
+        type: String,
     }
-});
+},  { timestamps: true });
 
 const Post = models.Post || model('Post', postSchema);
 

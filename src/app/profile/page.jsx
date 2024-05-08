@@ -13,7 +13,8 @@ const Profile = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const [tab, setTab] = useState('published')
-
+  const [posts, setPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
 
 
   if (!session) router.replace("/");
@@ -22,6 +23,31 @@ const Profile = () => {
 
   const profilePicture = useSelector((state) => state.profilePicture.profilePicture);
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await fetch('/api/post');
+
+      const data = await response.json();
+      setPosts(data);
+    }
+    
+    fetchPosts();
+  }, [])
+
+  useEffect(() => {
+    const fetchUserPosts = async () => {
+      const response = await fetch(`/api/users/${session?.user.id}/posts`);
+
+      const data = await response.json();
+      setUserPosts(data);
+    }
+
+    if (session?.user.id) fetchUserPosts();
+  }, []);
+
+  // const handleEdit = (post) => {
+  //   router.push(`/edit-post?id=${post._id}`);
+  // }
   
   return (
     <div className={`mt-28 w-[90%] mx-auto mb-12 ${!session && 'hidden'}`}>
@@ -59,8 +85,10 @@ const Profile = () => {
         </div>
 
         <div className='flex flex-col gap-8'>
-          {publishedPosts.map((item, i) => (
-            <SavedPost item={item} key={i} />
+          {userPosts.map((item) => (
+            <SavedPost item={item} key={item._id} handleEdit={() => {
+              router.push(`/edit-post?id=${item._id}`)
+            }} />
           ))}
         </div>
       </div>
@@ -69,3 +97,8 @@ const Profile = () => {
 }
 
 export default Profile
+
+
+// {publishedPosts.map((item, i) => (
+//   <SavedPost item={item} key={i} />
+// ))}

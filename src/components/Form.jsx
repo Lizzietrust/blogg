@@ -1,9 +1,29 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 
 const Form = ({ post, setPost, submitting, handlesubmit }) => {
+    const [image, setImage] = useState(null);
+    const [imageUrl, setImageUrl] = useState('');
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+        
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageUrl(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleUploadImage = () => {
+        if (image) {
+          localStorage.setItem('uploadedImage', imageUrl);
+        }
+    };
+
   return (
     <form className='w-full my-5 flex flex-col gap-6' onSubmit={handlesubmit}>
         <div className='w-full flex flex-col gap-2'>
@@ -36,11 +56,11 @@ const Form = ({ post, setPost, submitting, handlesubmit }) => {
                     <div className='w-[70%] h-full flex items-center text-[#626060]'>
                         Choose cover image from files
                     </div>
-                    <div className='w-[30%] h-full flex items-center justify-center bg-[#26BDD2] font-medium text-lg text-white cursor-pointer'>
+                    <div className='w-[30%] h-full flex items-center justify-center bg-[#26BDD2] font-medium text-lg text-white cursor-pointer hover:bg-opacity-25 focus:bg-opacity-50' onClick={handleUploadImage}>
                         Upload cover image 
                     </div>
 
-                    <input type="file" accept="image/*" className='absolute top-0 left-0 w-[70%] h-full z-50 opacity-0' />
+                    <input type="file" accept="image/*" className='absolute top-0 left-0 w-[70%] h-full z-50 opacity-0' onChange={handleImageChange} />
                 </div>
             </div>
         </div>
