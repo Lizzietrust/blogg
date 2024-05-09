@@ -5,17 +5,13 @@ import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
 
-const SavedPost = ({ item, handleEdit }) => {
+const SavedPost = ({ item, handleEdit, handleDelete }) => {
     const [actionModal, setActionModal] = useState(false);
     const { data: session } = useSession();
     const router = useRouter();
 
     const showActionModal = () => {
         setActionModal(!actionModal)
-    }
-
-    const handleDelete = async () => {
-  
     }
 
     const timestamp = item.createdAt;
@@ -36,10 +32,23 @@ const SavedPost = ({ item, handleEdit }) => {
     
     const formattedDate = formatDate(timestamp);
 
+    const editPostLogic = () => {
+        setActionModal(false);
+        handleEdit()
+    }
+
+    const deletePostLogic = () => {
+        setActionModal(false);
+        handleDelete()
+    }
+
   return (
-    <div className='flex items-end w-full gap-4 relative'>
-        <Image src={item.imageUrl} alt='' width={451} height={371} className='rounded-[6px] object-cover' />
-        <div className='w-full'>
+    <div className='flex items-end w-full gap-6 relative'>
+        <div className="w-[35%] h-[371px] object-cover relative">
+            <Image src={item.imageUrl} alt='' className='rounded-[6px] w-full h-full' fill />
+        </div>
+
+        <div className='w-[65%]'>
             <div className='w-full flex justify-end mb-10 absolute top-0 left-0'>
                 <Image src='/assets/quill_meatballs.png' alt='' width={40} height={40} className='object-cover cursor-pointer' onClick={showActionModal} />
             </div>
@@ -64,16 +73,16 @@ const SavedPost = ({ item, handleEdit }) => {
         </div>
         
         {actionModal && (
-            <div className='absolute top-12 right-0 w-[128px] h-28 rounded-[6px] p-4 flex flex-col gap-5 bg-white shadow-xl'>
+            <div className='absolute top-14 right-0 w-[128px] h-28 rounded-[6px] p-4 flex flex-col gap-5 bg-white shadow-xl'>
                 {/* <div className='flex items-center gap-3 cursor-pointer'>
                     <Image src='/assets/fa_send.png' width={24} height={24} />
                     <p>Publish</p>
                 </div> */}
-                <div className='flex items-center gap-3 cursor-pointer' onClick={handleEdit}>
+                <div className='flex items-center gap-3 cursor-pointer' onClick={editPostLogic}>
                     <Image src='/assets/basil_edit.png' width={24} height={24} />
                     <p>Edit</p>
                 </div>
-                <div className='flex items-center gap-3 cursor-pointer' onClick={handleDelete}>
+                <div className='flex items-center gap-3 cursor-pointer' onClick={deletePostLogic}>
                     <Image src='/assets/mdi_delete.png' width={21.47} height={21.47} />
                     <p>Delete</p>
                 </div>
@@ -86,3 +95,4 @@ const SavedPost = ({ item, handleEdit }) => {
 export default SavedPost
 
 // h-[149.47px]
+

@@ -14,3 +14,7 @@
 .calc_width {
   width: calc(100% - 28px);
 }
+
+.w-calc_width {
+  width: calc(100% - 451px);
+}

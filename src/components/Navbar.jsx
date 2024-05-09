@@ -116,7 +116,7 @@ const Navbar = () => {
             <p className='text-[#E00017]'>Log Out</p>
           </div>
 
-          <Link href='create-post' className='flex items-center gap-2 cursor-pointer w-full'>
+          <Link href='create-post' className='flex items-center gap-2 cursor-pointer w-full' onClick={() => setDropdown(false)}>
             <Image src='/assets/create-post.png' alt='plus-image' width={21.47} height={21.47} className='object-cover' />
             <p>Create Post</p>
           </Link>

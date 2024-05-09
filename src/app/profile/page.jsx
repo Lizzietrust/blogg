@@ -1,12 +1,11 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { signOut, useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image'
 import SavedPost from '@/components/SavedPost';
-import { publishedPosts } from '@/constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const Profile = () => {
@@ -15,6 +14,8 @@ const Profile = () => {
   const [tab, setTab] = useState('published')
   const [posts, setPosts] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 6;
 
 
   if (!session) router.replace("/");
@@ -45,9 +46,52 @@ const Profile = () => {
     if (session?.user.id) fetchUserPosts();
   }, []);
 
-  // const handleEdit = (post) => {
-  //   router.push(`/edit-post?id=${post._id}`);
-  // }
+  const handleEdit = (item) => {
+    router.push(`/edit-post?id=${item._id}`);
+  }
+
+  const handleDelete = async (item) => {
+    const hasConfirmed = confirm('Are you sure you want to delete this post?');
+
+    if (hasConfirmed) {
+      try {
+        await fetch(`/api/post/${item._id.toString()}`, {
+          method: 'DELETE'
+        })
+
+        const filteredPosts = posts.filter((post) => post._id !== item._id);
+        setPosts(filteredPosts);
+        router.push('/');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = userPosts.slice(indexOfFirstPost, indexOfLastPost);
+  console.log('posts:', userPosts);
+  console.log('posts:', currentPosts);
+
+  const pagesNum = Math.ceil(userPosts.length / postsPerPage);
+  const numbers = [...Array(pagesNum + 1).keys()].slice(1);
+
+  const prevPage = () => {
+    if(currentPage !== 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const changePage = (num) => {
+    setCurrentPage(num)
+  }
+
+  const nextPage = () => {
+    if(currentPage !== pagesNum) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
   
   return (
     <div className={`mt-28 w-[90%] mx-auto mb-12 ${!session && 'hidden'}`}>
@@ -84,14 +128,33 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className='flex flex-col gap-8'>
-          {userPosts.map((item) => (
-            <SavedPost item={item} key={item._id} handleEdit={() => {
-              router.push(`/edit-post?id=${item._id}`)
-            }} />
+        <div className='flex flex-col gap-10'>
+          {currentPosts.map((item) => (
+            <SavedPost item={item} key={item._id}  
+              handleEdit={() => handleEdit(item)}
+              handleDelete={() =>handleDelete(item)}
+            />
           ))}
         </div>
-      </div>
+
+        <div>
+          <ul className='flex list-none items-center justify-center mt-10 gap-8'>
+            <li onClick={prevPage} className=' cursor-pointer'>
+              Previous
+            </li>
+            <div className='flex items-center justify-center gap-3'>
+              {numbers.map((num, i) => (
+                <li key={i} className={`${currentPage === num && 'font-bold'} cursor-pointer`} onClick={() => changePage(num)}>
+                  {num}
+                </li>
+              ))}
+            </div>
+            <li onClick={nextPage} className=' cursor-pointer'>
+              Next
+            </li>
+          </ul>
+        </div>
+      </div> 
     </div>
   )
 }
@@ -102,3 +165,4 @@ export default Profile
 // {publishedPosts.map((item, i) => (
 //   <SavedPost item={item} key={i} />
 // ))}
+
