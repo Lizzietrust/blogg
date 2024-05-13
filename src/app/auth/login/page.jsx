@@ -48,6 +48,8 @@ const Login = () => {
           console.log('User successfully logged in',);
         }
     }
+
+
   return (
     <div className='w-[55%] overflow-y-auto'>
       <div className='w-[80%] mx-auto my-14 pr-10'>
@@ -94,11 +96,15 @@ const Login = () => {
           <p className='text-center mb-6'>Sign in with </p>
 
           <div className='flex items-center justify-between'>
-            <Image src='/assets/facebook.png' alt='facebook-icon' width={108} height={72} priority className='cursor-pointer' />
+            <Image src='/assets/facebook.png' alt='facebook-icon' width={108} height={72} priority className='cursor-pointer' onClick={() => {
+              signIn("facebook");
+            }} />
 
-            <Image src='/assets/apple.png' alt='apple-icon' width={108} height={72} priority className='cursor-pointer' />
+            <Image src='/assets/apple.png' alt='apple-icon' width={108} height={72} priority className='cursor-pointer'  />
 
-            <Image src='/assets/google.png' alt='google-icon' width={108} height={72} priority className='cursor-pointer' />
+            <Image src='/assets/google.png' alt='google-icon' width={108} height={72} priority className='cursor-pointer' onClick={() => {
+              signIn("google");
+            }} />
           </div>
         </div>
       </div>

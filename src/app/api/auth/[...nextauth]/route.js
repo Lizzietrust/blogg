@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from 'next-auth/providers/google';
+import AppleProvider from 'next-auth/providers/apple'
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import User from "@/models/User";
@@ -16,7 +17,7 @@ export const authOptions = {
         credentials: {
         //   email: { label: "Email", type: "text" },
           name: { label: "name", type: "text" },
-          password: { label: "Password", type: "password" },
+          password: { label: "password", type: "password" },
         },
         async authorize(credentials, req) {
           await connect();
@@ -49,14 +50,24 @@ export const authOptions = {
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    AppleProvider({
+      clientId: process.env.APPLE_ID,
+      clientSecret: process.env.APPLE_SECRET,
+    }),
     // ...add more providers here
   ],
-  // session: {
-  //   // Enable JWT session
-  //   jwt: true,
-  //   // Set maxAge for persistent sessions (30 days)
-  //   maxAge: 30 * 24 * 60 * 60,
+  // cookies: {
+  //   pkceCodeVerifier: {
+  //     name: "next-auth.pkce.code_verifier",
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "none",
+  //       path: "/",
+  //       secure: true,
+  //     },
+  //   },
   // },
+
   callbacks: {
     async jwt ({ token, user, session }) { 
       if (user?._id) token._id = user._id;
@@ -67,7 +78,6 @@ export const authOptions = {
     async session({ session, token, user }) {
       if (token?._id) {
         session.user.id = token._id.toString();
-        // session.user.id = sessionUser._id.toString();
       }
       
       console.log('session>>', {token: token}, {user: user}, {session: session});
@@ -78,24 +88,46 @@ export const authOptions = {
       if (account?.provider == "credentials") {
         return true;
       }
-      // if (account?.provider == "facebook") {
-      //   await connect();
-      //   try {
-      //     const existingUser = await User.findOne({ email: user.email });
-      //     if (!existingUser) {
-      //       const newUser = new User({
-      //         email: user.email,
-      //       });
+      if (account?.provider == "google") {
+        await connect();
+        try {
+          const existingUser = await User.findOne({ name: user.name });
+          if (!existingUser) {
+            const newUser = new User({
+              email: user.email,
+              name: user.name
+            });
 
-      //       await newUser.save();
-      //       return true;
-      //     }
-      //     return true;
-      //   } catch (err) {
-      //     console.log("Error saving user", err);
-      //     return false;
-      //   }
-      // }
+            await newUser.save();
+            return true;
+          }
+          return true;
+        } catch (err) {
+          console.log("Error saving user", err);
+          return false;
+        }
+      }
+
+      if (account?.provider == "facebook") {
+        await connect();
+        try {
+          const existingUser = await User.findOne({ name: user.name });
+          if (!existingUser) {
+            const newUser = new User({
+              email: user.email,
+              // name: user.name
+            });
+
+            await newUser.save();
+            return true;
+          }
+          return true;
+        } catch (err) {
+          console.log("Error saving user", err);
+          return false;
+        }
+      }
+      
     },
 
 
@@ -106,3 +138,4 @@ export const authOptions = {
 
 export const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+

@@ -1,7 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 
-const postSchema = new Schema({
+const draftSchema = new Schema({
     creator: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -32,6 +32,6 @@ const postSchema = new Schema({
     }
 },  { timestamps: true });
 
-const Post = models.Post || model('Post', postSchema);
+const Draft = models.Draft || model('Draft', draftSchema);
 
-export default Post;
+export default Draft;

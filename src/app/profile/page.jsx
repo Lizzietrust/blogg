@@ -14,7 +14,9 @@ const Profile = () => {
   const [tab, setTab] = useState('published')
   const [posts, setPosts] = useState([]);
   const [userPosts, setUserPosts] = useState([]);
+  const [userDrafts, setUserDrafts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const postsPerPage = 6;
 
 
@@ -37,14 +39,64 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUserPosts = async () => {
+      setLoading(true);
       const response = await fetch(`/api/users/${session?.user.id}/posts`);
 
       const data = await response.json();
       setUserPosts(data);
+      setLoading(false);
     }
 
     if (session?.user.id) fetchUserPosts();
   }, []);
+
+  useEffect(() => {
+    const fetchUserDrafts = async () => {
+      setLoading(true);
+      const response = await fetch(`/api/users/${session?.user.id}/drafts`);
+
+      const data = await response.json();
+      setUserDrafts(data);
+      setLoading(false);
+    }
+
+    if (session?.user.id) fetchUserDrafts();
+  }, []);
+
+  const handlePublish = async (item) => {
+    try {
+
+      const response = await fetch('/api/post/new', {
+          method: 'POST',
+          body: JSON.stringify({
+              title: item.title,
+              tag: item.tag,
+              time: item.time,
+              content: item.content,
+              userId: item.creator, 
+              imageUrl: item.imageUrl
+          })
+      })
+
+      if(response.ok) {
+        router.push('/')
+      }
+
+      // if (response.ok) {
+      //   const updatedResponse = await fetch(`/api/users/${session?.user.id}/posts`);
+      //   const updatedData = await updatedResponse.json();
+      //   console.log('data:', updatedData);
+        
+      //   setUserPosts(updatedData);
+      //   router.push('/');
+      // }
+    }
+    catch (error) {
+        console.log(error);
+    }
+  }
+
+  console.log('drafts:', userDrafts);
 
   const handleEdit = (item) => {
     router.push(`/edit-post?id=${item._id}`);
@@ -56,6 +108,28 @@ const Profile = () => {
     if (hasConfirmed) {
       try {
         await fetch(`/api/post/${item._id.toString()}`, {
+          method: 'DELETE'
+        })
+
+        const filteredPosts = posts.filter((post) => post._id !== item._id);
+        setPosts(filteredPosts);
+        router.push('/');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  const handleDraftEdit = (item) => {
+    router.push(`/edit-draft?id=${item._id}`);
+  }
+
+  const handleDraftDelete = async (item) => {
+    const hasConfirmed = confirm('Are you sure you want to delete this post?');
+
+    if (hasConfirmed) {
+      try {
+        await fetch(`/api/drafts/${item._id.toString()}`, {
           method: 'DELETE'
         })
 
@@ -92,6 +166,7 @@ const Profile = () => {
       setCurrentPage(currentPage + 1)
     }
   }
+
   
   return (
     <div className={`mt-28 w-[90%] mx-auto mb-12 ${!session && 'hidden'}`}>
@@ -128,32 +203,77 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className='flex flex-col gap-10'>
-          {currentPosts.map((item) => (
-            <SavedPost item={item} key={item._id}  
-              handleEdit={() => handleEdit(item)}
-              handleDelete={() =>handleDelete(item)}
-            />
-          ))}
-        </div>
+        {tab === 'published' && (
+          <div>
+            {loading ? (
+              'Loading...'
+            ) : (
+              <div className='flex flex-col gap-10'>
+                {currentPosts.map((item) => (
+                  <SavedPost item={item} key={item._id}  
+                    handleEdit={() => handleEdit(item)}
+                    handleDelete={() =>handleDelete(item)}
+                  />
+                ))}
+              </div>
+            )}
 
-        <div>
-          <ul className='flex list-none items-center justify-center mt-10 gap-8'>
-            <li onClick={prevPage} className=' cursor-pointer'>
-              Previous
-            </li>
-            <div className='flex items-center justify-center gap-3'>
-              {numbers.map((num, i) => (
-                <li key={i} className={`${currentPage === num && 'font-bold'} cursor-pointer`} onClick={() => changePage(num)}>
-                  {num}
+            {!loading && (
+              <ul className='flex list-none items-center justify-center mt-10 gap-8'>
+                <li onClick={prevPage} className={`cursor-pointer font-semibold text-[25px] ${currentPage === 1 &&'text-[#808080] cursor-default'}`}>
+                  Previous
                 </li>
-              ))}
-            </div>
-            <li onClick={nextPage} className=' cursor-pointer'>
-              Next
-            </li>
-          </ul>
-        </div>
+                <div className='flex items-center justify-center gap-3'>
+                  {numbers.map((num, i) => (
+                    <li key={i} className={`${currentPage === num && 'text-black cursor-default'} cursor-pointer text-[25px] text-[#808080]`} onClick={() => changePage(num)}>
+                      {num}
+                    </li>
+                  ))}
+                </div>
+                <li onClick={nextPage} className={`cursor-pointer font-semibold text-[25px] ${currentPage === pagesNum &&'text-[#808080] cursor-default'}`}>
+                  Next
+                </li>
+              </ul>
+            )}
+          </div>
+        )}
+
+        {tab === 'drafts' && (
+          <div>
+            {loading ? (
+              'Loading...'
+            ) : (
+              <div className='flex flex-col gap-10'>
+                {userDrafts.map((item) => (
+                  <SavedPost item={item} key={item._id} 
+                    addPublish
+                    handlePublish={() => handlePublish(item)}
+                    handleEdit={() => handleDraftEdit(item)}
+                    handleDelete={() =>handleDraftDelete(item)}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* {!loading && (
+              <ul className='flex list-none items-center justify-center mt-10 gap-8'>
+                <li onClick={prevPage} className={`cursor-pointer font-semibold text-[25px] ${currentPage === 1 &&'text-[#808080] cursor-default'}`}>
+                  Previous
+                </li>
+                <div className='flex items-center justify-center gap-3'>
+                  {numbers.map((num, i) => (
+                    <li key={i} className={`${currentPage === num && 'text-black cursor-default'} cursor-pointer text-[25px] text-[#808080]`} onClick={() => changePage(num)}>
+                      {num}
+                    </li>
+                  ))}
+                </div>
+                <li onClick={nextPage} className={`cursor-pointer font-semibold text-[25px] ${currentPage === pagesNum &&'text-[#808080] cursor-default'}`}>
+                  Next
+                </li>
+              </ul>
+            )} */}
+          </div>
+        )}
       </div> 
     </div>
   )

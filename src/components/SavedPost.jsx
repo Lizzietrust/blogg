@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
 
-const SavedPost = ({ item, handleEdit, handleDelete }) => {
+const SavedPost = ({ item, handleEdit, handleDelete, addPublish, handlePublish }) => {
     const [actionModal, setActionModal] = useState(false);
     const { data: session } = useSession();
     const router = useRouter();
@@ -73,11 +73,13 @@ const SavedPost = ({ item, handleEdit, handleDelete }) => {
         </div>
         
         {actionModal && (
-            <div className='absolute top-14 right-0 w-[128px] h-28 rounded-[6px] p-4 flex flex-col gap-5 bg-white shadow-xl'>
-                {/* <div className='flex items-center gap-3 cursor-pointer'>
-                    <Image src='/assets/fa_send.png' width={24} height={24} />
-                    <p>Publish</p>
-                </div> */}
+            <div className={`${addPublish && 'h-[149.47px]'} absolute top-14 right-0 w-[128px] h-28 rounded-[6px] p-4 flex flex-col gap-5 bg-white shadow-xl`}>
+                {addPublish && (
+                    <div className='flex items-center gap-3 cursor-pointer' onClick={handlePublish}>
+                        <Image src='/assets/fa_send.png' width={24} height={24} />
+                        <p>Publish</p>
+                    </div>
+                )}
                 <div className='flex items-center gap-3 cursor-pointer' onClick={editPostLogic}>
                     <Image src='/assets/basil_edit.png' width={24} height={24} />
                     <p>Edit</p>
@@ -94,5 +96,5 @@ const SavedPost = ({ item, handleEdit, handleDelete }) => {
 
 export default SavedPost
 
-// h-[149.47px]
+
 

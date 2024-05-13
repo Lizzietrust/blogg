@@ -62,6 +62,7 @@ const Register = () => {
           console.log(error);
         }
     }
+
     
   return (
     <div className='w-[55%] overflow-y-auto'>
