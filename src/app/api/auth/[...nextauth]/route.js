@@ -23,9 +23,6 @@ export const authOptions = {
           await connect();
           try {
             const user = await User.findOne({ name: credentials.name });
-            // const id = user._id.toString();
-            // const name = user.name;
-            // console.log(id, name);
 
             if (user) {
               const isPasswordCorrect = await bcrypt.compare(
@@ -43,12 +40,20 @@ export const authOptions = {
         },
     }),
     FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID ?? "",
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET ?? "",
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     }), 
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      id: 'google', 
+      profile(profile) {
+        return {
+          id: profile.sub, 
+          name: profile.name,
+          email: profile.email,
+        };
+      },
     }),
     AppleProvider({
       clientId: process.env.APPLE_ID,
@@ -56,17 +61,6 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
-  // cookies: {
-  //   pkceCodeVerifier: {
-  //     name: "next-auth.pkce.code_verifier",
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: "none",
-  //       path: "/",
-  //       secure: true,
-  //     },
-  //   },
-  // },
 
   callbacks: {
     async jwt ({ token, user, session }) { 
@@ -79,6 +73,10 @@ export const authOptions = {
       if (token?._id) {
         session.user.id = token._id.toString();
       }
+
+      // if (token?.sub) {
+      //   session.user.id = token.sub;
+      // }
       
       console.log('session>>', {token: token}, {user: user}, {session: session});
       return session;
@@ -95,7 +93,7 @@ export const authOptions = {
           if (!existingUser) {
             const newUser = new User({
               email: user.email,
-              name: user.name
+              name: user.name,
             });
 
             await newUser.save();
@@ -108,28 +106,27 @@ export const authOptions = {
         }
       }
 
-      if (account?.provider == "facebook") {
-        await connect();
-        try {
-          const existingUser = await User.findOne({ name: user.name });
-          if (!existingUser) {
-            const newUser = new User({
-              email: user.email,
-              // name: user.name
-            });
+      // if (account?.provider == "facebook") {
+      //   await connect();
+      //   try {
+      //     const existingUser = await User.findOne({ name: user.name });
+      //     if (!existingUser) {
+      //       const newUser = new User({
+      //         email: user.email,
+      //         name: user.name
+      //       });
 
-            await newUser.save();
-            return true;
-          }
-          return true;
-        } catch (err) {
-          console.log("Error saving user", err);
-          return false;
-        }
-      }
+      //       await newUser.save();
+      //       return true;
+      //     }
+      //     return true;
+      //   } catch (err) {
+      //     console.log("Error saving user", err);
+      //     return false;
+      //   }
+      // }
       
     },
-
 
   },
 

@@ -89,7 +89,7 @@ const CreatePost = () => {
 
   return (
     <div className={`mt-28 w-[90%] mx-auto mb-12 relative ${!session && 'hidden'}`}>
-      <h1 className='font-semibold text-5xl text-[#2B2A2A]'>Create A New Blog</h1>
+      <h1 className='font-semibold md:text-5xl text-3xl text-[#2B2A2A]'>Create A New Blog</h1>
 
       <Form
         post={post}

@@ -8,11 +8,12 @@ const metadata = {
 
 export default function AuthLayout({ children }) {
   return (
-    <div style={{display: 'flex', height: '100vh',}}>
-      <div style={{width: '45%', height: '100%', position: 'relative', objectFit: 'cover'}}>
-        <Image src='/assets/auth-image.png' alt='auth-image' style={{width: '100%', height: '100%', objectFit: 'cover'}} fill />
+    <div className="flex h-screen">
+      <div className="w-[45%] h-full relative object-cover hidden md:block">
+        <Image src='/assets/auth-image.png' alt='auth-image' className="w-full h-full object-cover" fill />
       </div>
       {children}
     </div>
   );
 }
+

@@ -51,8 +51,8 @@ const Login = () => {
 
 
   return (
-    <div className='w-[55%] overflow-y-auto'>
-      <div className='w-[80%] mx-auto my-14 pr-10'>
+    <div className='w-full md:w-[55%] overflow-y-auto'>
+      <div className='w-full md:w-[80%] mx-auto my-14 md:pr-10 px-6 md:px-0'>
         <div className='flex flex-col items-center mb-8'>
           <Link href='/'>
             <Image src="/assets/logo.png" alt="logo" width={267} height={97}  priority />
@@ -93,7 +93,13 @@ const Login = () => {
             <hr className='w-[45%] border border-[#2B2A2A]' />
           </div>
 
-          <p className='text-center mb-6'>Sign in with </p>
+          <button className='w-full h-12 bg-black rounded-lg flex items-center justify-center gap-6 mt-12 hover:bg-transparent hover:border border-black text-white hover:text-black' onClick={() => {signIn("google")}} 
+          >
+            <Image src='/assets/devicon_google.png' width={24} height={24} alt='google-icon' />
+            <p className='text-center'>Sign in with google</p>
+          </button>
+
+          {/* <p className='text-center mb-6'>Sign in with </p>
 
           <div className='flex items-center justify-between'>
             <Image src='/assets/facebook.png' alt='facebook-icon' width={108} height={72} priority className='cursor-pointer' onClick={() => {
@@ -102,10 +108,8 @@ const Login = () => {
 
             <Image src='/assets/apple.png' alt='apple-icon' width={108} height={72} priority className='cursor-pointer'  />
 
-            <Image src='/assets/google.png' alt='google-icon' width={108} height={72} priority className='cursor-pointer' onClick={() => {
-              signIn("google");
-            }} />
-          </div>
+            <Image src='/assets/google.png' alt='google-icon' width={108} height={72} priority className='cursor-pointer' />
+          </div> */}
         </div>
       </div>
     </div>

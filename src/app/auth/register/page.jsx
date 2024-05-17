@@ -65,8 +65,8 @@ const Register = () => {
 
     
   return (
-    <div className='w-[55%] overflow-y-auto'>
-      <div className='w-[80%] mx-auto my-14 pr-10'>
+    <div className='w-full md:w-[55%] overflow-y-auto'>
+      <div className='w-full md:w-[80%] mx-auto my-14 md:pr-10 px-6 md:px-0'>
         <div className='flex flex-col items-center mb-8'>
           <Link href='/'>
             <Image src="/assets/logo.png" alt="logo" width={267} height={97}  priority />
@@ -105,7 +105,7 @@ const Register = () => {
           </button>
         </form>
 
-        <div className=''>
+        {/* <div className=''>
           <div className='flex w-full items-center justify-between mb-6'>
             <hr className='w-[45%] border border-[#2B2A2A]' />
             <p className='text-[#2B2A2A]'>or</p>
@@ -121,7 +121,7 @@ const Register = () => {
 
             <Image src='/assets/google.png' alt='google-icon' width={108} height={72} priority className='cursor-pointer' />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )

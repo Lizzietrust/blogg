@@ -17,6 +17,7 @@ const Profile = () => {
   const [userDrafts, setUserDrafts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const postsPerPage = 6;
 
 
@@ -24,18 +25,7 @@ const Profile = () => {
 
   console.log(session);
 
-  const profilePicture = useSelector((state) => state.profilePicture.profilePicture);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch('/api/post');
-
-      const data = await response.json();
-      setPosts(data);
-    }
-    
-    fetchPosts();
-  }, [])
+  const profilePicture = useSelector((state) => state.profilePicture.profilePicture)
 
   useEffect(() => {
     const fetchUserPosts = async () => {
@@ -52,12 +42,12 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchUserDrafts = async () => {
-      setLoading(true);
+      setFetching(true);
       const response = await fetch(`/api/users/${session?.user.id}/drafts`);
 
       const data = await response.json();
       setUserDrafts(data);
-      setLoading(false);
+      setFetching(false);
     }
 
     if (session?.user.id) fetchUserDrafts();
@@ -151,6 +141,10 @@ const Profile = () => {
   const pagesNum = Math.ceil(userPosts.length / postsPerPage);
   const numbers = [...Array(pagesNum + 1).keys()].slice(1);
 
+  // if (currentPosts.length === 0 && userDrafts.length === 0) {
+  //   setLoading(false)
+  // }
+
   const prevPage = () => {
     if(currentPage !== 1) {
       setCurrentPage(currentPage - 1)
@@ -169,27 +163,27 @@ const Profile = () => {
 
   
   return (
-    <div className={`mt-28 w-[90%] mx-auto mb-12 ${!session && 'hidden'}`}>
-      <div className='flex items-center justify-between w-full'>
-        <div className='flex items-center gap-4'>
+    <div className={`mt-28 md:w-[90%] px-6 md:px-0 mx-auto mb-12 ${!session && 'hidden'}`}>
+      <div className='md:flex items-center justify-between w-full'>
+        <div className='flex md:flex-row flex-col items-center gap-4'>
           {profilePicture ? (
             <Image src={profilePicture} alt='profile-image' width={228} height={228} className='rounded-full' />
           ) : (
             <Image src='/assets/profile-img.webp' alt='' width={228} height={228} className='rounded-full' />
           )}
-          <div className='flex flex-col gap-3'>
+          <div className='flex flex-col gap-3 md:items-start items-center'>
             <h2 className='font-semibold text-[#2B2A2A] text-[41px]'>{session?.user.name}</h2>
-            <p className='leading-[19.5px] text-[#2B2A2A] w-3/5'>
+            <p className='leading-[19.5px] text-[#2B2A2A] md:w-3/5'>
               Lorem ipsum dolor sit amet consectetur. Ridiculus in tellus cras vitae donec pellentesque condimentum feugiat. Massa id vestibulum enim nunc netus aliquet id feugiat hac. Vel malesuada odio volutpat magna quis. Feugiat sodales cras diam dictum se
             </p>
             <div className="flex items-center gap-2">
               <span className='font-medium text-lg text-[#808080]'>15,000 views</span>
               <div className='w-[3px] h-[3px] bg-[#26BDD2] rounded-full'></div>
-              <span className='font-medium text-lg text-[#808080]'>60 Published</span>
+              <span className='font-medium text-lg text-[#808080]'>{currentPosts.length} Published</span>
             </div>
           </div>
         </div>
-        <button className='w-28 h-8 rounded-lg border border-[#26BDD2] font-medium text-[#2B2A2A]'>Edit</button>
+        <button className='md:w-28 w-full mt-6 md:mt-0 md:h-8 h-12 rounded-lg border border-[#26BDD2] font-medium text-[#2B2A2A]'>Edit</button>
       </div>
 
       <div>
@@ -218,7 +212,7 @@ const Profile = () => {
               </div>
             )}
 
-            {!loading && (
+            {!loading || currentPosts && (
               <ul className='flex list-none items-center justify-center mt-10 gap-8'>
                 <li onClick={prevPage} className={`cursor-pointer font-semibold text-[25px] ${currentPage === 1 &&'text-[#808080] cursor-default'}`}>
                   Previous
@@ -240,7 +234,7 @@ const Profile = () => {
 
         {tab === 'drafts' && (
           <div>
-            {loading ? (
+            {fetching ? (
               'Loading...'
             ) : (
               <div className='flex flex-col gap-10'>

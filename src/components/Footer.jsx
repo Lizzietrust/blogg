@@ -10,10 +10,10 @@ const Footer = () => {
     const pathName = usePathname();
     
   return (
-    <div className={`bg-[#2B2A2A] w-full ${pathName === '/auth/login' && 'hidden'} ${pathName === '/auth/register' && 'hidden'}`}>
-      <div className='w-[90%] mx-auto'>
-        <div className='pt-10 pb-20 border-b border-b-[#26BDD2] flex justify-between'>
-            <div className='w-4/12'>
+    <div className={`bg-[#2B2A2A] w-full overflow-hidden ${pathName === '/auth/login' && 'hidden'} ${pathName === '/auth/register' && 'hidden'}`}>
+      <div className='md:w-[90%] mx-auto px-6 md:px-0'>
+        <div className='pt-10 pb-20 border-b border-b-[#26BDD2] md:flex justify-between'>
+            <div className='md:w-4/12'>
                 <Link href='/'>
                     <Image src="/assets/BLOGG.png" alt="logo" priority width={166} height={60} className=' object-cover' />
                 </Link>
@@ -23,7 +23,7 @@ const Footer = () => {
                 </p>
 
                 <form>
-                    <div className='flex items-center w-[379px] h-[54px] rounded-[39px] border border-[#26BDD2] p-2 justify-between'>
+                    <div className='flex items-center md:w-[379px] h-[54px] rounded-[39px] border border-[#26BDD2] p-2 justify-between'>
                         <input 
                             type="text" 
                             placeholder='Email'
@@ -38,7 +38,7 @@ const Footer = () => {
                 </form>
             </div>
 
-            <div className='flex justify-between w-2/5'>
+            <div className='flex justify-between md:w-2/5 mt-10 md:mt-0'>
                 <div className='text-white'>
                     <p className='mb-3'>Quick Links</p>
                     <ul className='flex flex-col gap-1'>
@@ -66,13 +66,13 @@ const Footer = () => {
             </div>
         </div>
 
-        <div className='flex items-center justify-center pt-3 pb-6'>
-            <Image src='/assets/ph_copyright-light.png' alt='copyright' width={18} height={18} priority className='mr-1' />
-            <p className='text-white text-sm flex items-center gap-3'>
-                <span className='font-medium'>2023</span> 
-                <span className='font-semibold -ml-1 mr-2'>BLOGG</span>
-                <span>All rights reserved</span>
-                <a href="#" className='underline'>Privacy Policy</a>
+        <div className='flex md:items-center md:justify-center pt-3 pb-6'>
+            <Image src='/assets/ph_copyright-light.png' alt='copyright' width={18} height={18} priority className='mr-1 md:block hidden' />
+            <p className='text-white text-sm md:flex items-center gap-3'>
+                <span className='font-medium'> 2023 </span> 
+                <span className='font-semibold -ml-1 mr-2'> BLOGG </span>
+                <span className=''> All rights reserved </span>
+                <a href="#" className='underline'> Privacy Policy </a>
                 <a href="#" className='underline'>Terms of Service</a>
             </p>
         </div>

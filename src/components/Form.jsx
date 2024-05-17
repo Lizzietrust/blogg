@@ -56,10 +56,10 @@ const Form = ({ post, setPost, submitting, handlesubmit, handleSave, loading }) 
                 </div>
                 <div className="flex calc_width h-full relative">
                     <div className='w-[70%] h-full flex items-center text-[#626060]'>
-                        Choose cover image from files
+                        Choose cover image <span className='hidden md:block'> from files</span> 
                     </div>
                     <div className='w-[30%] h-full flex items-center justify-center bg-[#26BDD2] font-medium text-lg text-white cursor-pointer hover:bg-opacity-25 focus:bg-opacity-50' onClick={handleUploadImage}>
-                        Upload cover image 
+                        Upload <span className='hidden md:block'> cover image</span>   
                     </div>
 
                     <input type="file" accept="image/*" className='absolute top-0 left-0 w-[70%] h-full z-50 opacity-0' onChange={handleImageChange} />
@@ -83,9 +83,9 @@ const Form = ({ post, setPost, submitting, handlesubmit, handleSave, loading }) 
             </textarea>
         </div>
 
-        <div className="flex w-full gap-8">
-            <button type='submit' className={`${pathName === '/edit-post' || pathName === '/edit-draft' && 'w-full'} w-1/2 h-[50px] rounded-lg bg-[#26BDD2] font-medium text-lg text-white`}>{submitting ? 'Loading...' : pathName === '/edit-post' || pathName === '/edit-draft' ? 'Edit': 'Publish'}</button>
-            <button type='button' className={`${pathName === '/edit-post' || pathName === '/edit-draft' && 'hidden'} w-1/2 h-[50px] rounded-lg border border-[#26BDD2] font-medium text-lg`} onClick={handleSave}>{submitting ? 'Loading...' : pathName === '/edit-post' ? 'Edit': 'Save to drafts'}</button>
+        <div className="flex md:flex-row flex-col w-full gap-8">
+            <button type='submit' className={`${pathName === '/edit-post' || pathName === '/edit-draft' && 'w-full'} md:w-1/2 h-[50px] rounded-lg bg-[#26BDD2] font-medium text-lg text-white`}>{submitting ? 'Loading...' : pathName === '/edit-post' || pathName === '/edit-draft' ? 'Edit': 'Publish'}</button>
+            <button type='button' className={`${pathName === '/edit-post' || pathName === '/edit-draft' && 'hidden'} md:w-1/2 h-[50px] rounded-lg border border-[#26BDD2] font-medium text-lg`} onClick={handleSave}>{loading ? 'Loading...' : pathName === '/edit-post' ? 'Edit': 'Save to drafts'}</button>
         </div>
     </form>
   )

@@ -43,19 +43,19 @@ const SavedPost = ({ item, handleEdit, handleDelete, addPublish, handlePublish }
     }
 
   return (
-    <div className='flex items-end w-full gap-6 relative'>
-        <div className="w-[35%] h-[371px] object-cover relative">
+    <div className='md:flex items-end w-full gap-6 relative'>
+        <div className="md:w-[35%] h-[371px] object-cover relative mb-8 md:mb-0">
             <Image src={item.imageUrl} alt='' className='rounded-[6px] w-full h-full' fill />
         </div>
 
-        <div className='w-[65%]'>
+        <div className='md:w-[65%]'>
             <div className='w-full flex justify-end mb-10 absolute top-0 left-0'>
                 <Image src='/assets/quill_meatballs.png' alt='' width={40} height={40} className='object-cover cursor-pointer' onClick={showActionModal} />
             </div>
 
             <div className='flex items-center gap-4 mb-5'>
                 <div className='py-[7px] px-[9px] rounded-[5px] bg-[#26BDD2] text-white text-sm'>{item.tag}</div>
-                <div className='flex items-center gap-1'>
+                <div className='md:flex hidden items-center gap-1'>
                     <Image src='/assets/eye-icon.png' alt='eye-icon' width={19} height={19} priority />
                     <p className='font-medium text-sm text-[#626060]'>views</p>
                 </div>
