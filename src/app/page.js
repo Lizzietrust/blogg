@@ -17,18 +17,18 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const { data: session } = useSession();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch('/api/post');
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     const response = await fetch('/api/post');
 
-      const data = await response.json();
-      setPosts(data);
-    }
+  //     const data = await response.json();
+  //     setPosts(data);
+  //   }
     
-    fetchPosts();
-  }, [])
+  //   fetchPosts();
+  // }, [])
 
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <div className="mt-28 overflow-x-hidden">
