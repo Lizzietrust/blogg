@@ -43,7 +43,7 @@ export default function Home() {
             </p>
             {!session &&(
             <Link 
-              href='/register' className='md:w-[149px] w-full h-[50px] rounded-lg bg-[#26BDD2] flex
+              href='/auth/register' className='md:w-[149px] w-full h-[50px] rounded-lg bg-[#26BDD2] flex
                 items-center justify-center font-medium text-lg text-white'
             >
               Get Started

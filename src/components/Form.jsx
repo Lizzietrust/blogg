@@ -84,7 +84,7 @@ const Form = ({ post, setPost, submitting, handlesubmit, handleSave, loading }) 
         </div>
 
         <div className="flex md:flex-row flex-col w-full gap-8">
-            <button type='submit' className={`${pathName === '/edit-post' || pathName === '/edit-draft' && 'w-full'} md:w-1/2 h-[50px] rounded-lg bg-[#26BDD2] font-medium text-lg text-white`}>{submitting ? 'Loading...' : pathName === '/edit-post' || pathName === '/edit-draft' ? 'Edit': 'Publish'}</button>
+            <button type='submit' className={`${pathName === '/edit-post' || pathName === '/edit-draft' && 'w-full '} md:w-1/2 h-[50px] rounded-lg bg-[#26BDD2] font-medium text-lg text-white`}>{submitting ? 'Loading...' : pathName === '/edit-post' || pathName === '/edit-draft' ? 'Edit': 'Publish'}</button>
             <button type='button' className={`${pathName === '/edit-post' || pathName === '/edit-draft' && 'hidden'} md:w-1/2 h-[50px] rounded-lg border border-[#26BDD2] font-medium text-lg`} onClick={handleSave}>{loading ? 'Loading...' : pathName === '/edit-post' ? 'Edit': 'Save to drafts'}</button>
         </div>
     </form>
@@ -92,3 +92,4 @@ const Form = ({ post, setPost, submitting, handlesubmit, handleSave, loading }) 
 }
 
 export default Form
+
